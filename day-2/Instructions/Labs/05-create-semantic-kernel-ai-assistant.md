@@ -19,7 +19,7 @@ This exercise takes approximately **30** minutes to complete.
     ![Screenshot of Azure AI Foundry portal.](../Media/ai-foundry-home.png)
 
 1. In the home page, in the **Explore models and capabilities** section, search for the `gpt-4o` model; which we'll use in our project.
-1. In the search results, select the **gpt-4o** model to see its details, and then at the top of the page for the model, select **Use this model**.
+1. In the search results, select the **gpt-4o-mini** model to see its details, and then at the top of the page for the model, select **Use this model**.
 1. When prompted to create a project, enter a valid name for your project and expand **Advanced options**.
 1. Select **Customize** and specify the following settings for your hub:
     - **Azure AI Foundry resource**: *A valid name for your Azure AI Foundry resource*
@@ -74,24 +74,17 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
 
     > **Note**: Follow the steps for your chosen programming language.
 
-    **Python**
-    ```
-    cd mslearn-ai-semantic-kernel/Labfiles/05-ai-assistant/Python
-    ```
-
     **C#**
     ```
     cd mslearn-ai-semantic-kernel/Labfiles/05-ai-assistant/C-sharp
     ```
 
-1. In the cloud shell command-line pane, enter the following command to install the libraries you'll use:
-
     **Python**
     ```
-    python -m venv labenv
-    ./labenv/bin/Activate.ps1
-    pip install python-dotenv azure-identity semantic-kernel[azure] 
+    cd mslearn-ai-semantic-kernel/Labfiles/05-ai-assistant/Python
     ```
+
+1. In the cloud shell command-line pane, enter the following command to install the libraries you'll use:
 
     **C#**
     ```
@@ -101,16 +94,23 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
     dotnet add package Microsoft.SemanticKernel.PromptTemplates.Handlebars
     ```
 
-1. Enter the following command to edit the configuration file that has been provided:
-
     **Python**
     ```
-    code .env
+    python -m venv labenv
+    ./labenv/bin/Activate.ps1
+    pip install python-dotenv azure-identity semantic-kernel[azure] 
     ```
+
+1. Enter the following command to edit the configuration file that has been provided:
 
     **C#**
     ```
     code appsettings.json
+    ```
+
+    **Python**
+    ```
+    code .env
     ```
 
     The file should open in a code editor.
@@ -123,18 +123,25 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
 
 1. Enter the following command to edit the code file that has been provided:
 
-    **Python**
-    ```
-    code devops.py
-    ```
-
     **C#**
     ```
     code Program.cs
     ```
 
+    **Python**
+    ```
+    code devops.py
+    ```
+
 1. Add the following code under the comment **Create a kernel builder with Azure OpenAI chat completion**:
 
+    **C#**
+     ```c#
+    // Create a kernel builder with Azure OpenAI chat completion
+    var builder = Kernel.CreateBuilder();
+    builder.AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey);
+    var kernel = builder.Build();
+    ```
     **Python**
     ```python
     # Create a kernel builder with Azure OpenAI chat completion
@@ -146,23 +153,8 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
     )
     kernel.add_service(chat_completion)
     ```
-    **C#**
-     ```c#
-    // Create a kernel builder with Azure OpenAI chat completion
-    var builder = Kernel.CreateBuilder();
-    builder.AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey);
-    var kernel = builder.Build();
-    ```
 
 1. Near the bottom of the file, find the comment **Create a kernel function to build the stage environment**, and add the following code to create a mock plugin functin that will build the staging environment:
-
-    **Python**
-    ```python
-    # Create a kernel function to build the stage environment
-    @kernel_function(name="BuildStageEnvironment")
-    def build_stage_environment(self):
-        return "Stage build completed."
-    ```
 
     **C#**
     ```c#
@@ -173,32 +165,30 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
         return "Stage build completed.";
     }
     ```
+    **Python**
+    ```python
+    # Create a kernel function to build the stage environment
+    @kernel_function(name="BuildStageEnvironment")
+    def build_stage_environment(self):
+        return "Stage build completed."
+    ```
 
     The `KernelFunction` decorator declares your native function. You use a descriptive name for the function so that the AI can call it correctly. 
 
 1. Navigate to the comment **Import plugins to the kernel** and add the following code:
-
-    **Python**
-    ```python
-    # Import plugins to the kernel
-    kernel.add_plugin(DevopsPlugin(), plugin_name="DevopsPlugin")
-    ```
 
     **C#**
     ```c#
     // Import plugins to the kernel
     kernel.ImportPluginFromType<DevopsPlugin>();
     ```
-
-
-1. Under the comment **Create prompt execution settings**, add the following code to automatically invoke the function:
-
     **Python**
     ```python
-    # Create prompt execution settings
-    execution_settings = AzureChatPromptExecutionSettings()
-    execution_settings.function_choice_behavior = FunctionChoiceBehavior.Auto()
+    # Import plugins to the kernel
+    kernel.add_plugin(DevopsPlugin(), plugin_name="DevopsPlugin")
     ```
+
+1. Under the comment **Create prompt execution settings**, add the following code to automatically invoke the function:
 
     **C#**
     ```c#
@@ -208,22 +198,27 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
         FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
     };
     ```
+    **Python**
+    ```python
+    # Create prompt execution settings
+    execution_settings = AzureChatPromptExecutionSettings()
+    execution_settings.function_choice_behavior = FunctionChoiceBehavior.Auto()
+    ```
 
     Using this setting will allow the kernel to automatically invoke functions without the need to specify them in the prompt.
 
 1. Add the following code under the comment **Create chat history**:
-
-    **Python**
-    ```python
-    # Create chat history
-    chat_history = ChatHistory()
-    ```
 
     **C#**
     ```c#
     // Create chat history
     var chatCompletionService = kernel.GetRequiredService<IChatCompletionService>();
     ChatHistory chatHistory = [];
+    ```
+    **Python**
+    ```python
+    # Create chat history
+    chat_history = ChatHistory()
     ```
 
 1. Uncomment the code block located after the comment **User interaction logic**
@@ -246,15 +241,14 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
 
 1. After you have signed in, enter the following command to run the application:
 
+    **C#**
+    ```
+    dotnet run
+    ```
 
     **Python**
     ```
     python devops.py
-    ```
-
-    **C#**
-    ```
-    dotnet run
     ```
 
 1. When prompted, enter the following prompt `Please build the stage environment`
@@ -279,21 +273,6 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
 
 1. Add the following code under the comment `Create a kernel function to deploy the staging environment`
 
-     **Python**
-    ```python
-    # Create a kernel function to deploy the staging environment
-    deploy_stage_function = KernelFunctionFromPrompt(
-        prompt="""This is the most recent build log:
-        {{DevopsPlugin.ReadLogFile}}
-
-        If there are errors, do not deploy the stage environment. Otherwise, invoke the stage deployment function""",
-        function_name="DeployStageEnvironment",
-        description="Deploy the staging environment"
-    )
-
-    kernel.add_function(plugin_name="DeployStageEnvironment", function=deploy_stage_function)
-    ```
-
     **C#**
     ```c#
     // Create a kernel function to deploy the staging environment
@@ -308,19 +287,33 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
 
     kernel.Plugins.AddFromFunctions("DeployStageEnvironment", [deployStageFunction]);
     ```
+    **Python**
+    ```python
+    # Create a kernel function to deploy the staging environment
+    deploy_stage_function = KernelFunctionFromPrompt(
+        prompt="""This is the most recent build log:
+        {{DevopsPlugin.ReadLogFile}}
+
+        If there are errors, do not deploy the stage environment. Otherwise, invoke the stage deployment function""",
+        function_name="DeployStageEnvironment",
+        description="Deploy the staging environment"
+    )
+
+    kernel.add_function(plugin_name="DeployStageEnvironment", function=deploy_stage_function)
+    ```
 
 1. Use the **CTRL+S** command to save your changes to the code file.
 
 1. In the cloud shell command-line pane, enter the following command to run the application:
 
-    **Python**
-    ```
-    python devops.py
-    ```
-
     **C#**
     ```
     dotnet run
+    ```
+
+    **Python**
+    ```
+    python devops.py
     ```
 
 1. When prompted, enter the following prompt `Please deploy the stage environment`
@@ -337,16 +330,6 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
 
 1. Add the following code under the comment **Create a handlebars prompt**:
 
-    **Python**
-    ```python
-    # Create a handlebars prompt
-    hb_prompt = """<message role="system">Instructions: Before creating a new branch for a user, request the new branch name and base branch name/message>
-        <message role="user">Can you create a new branch?</message>
-        <message role="assistant">Sure, what would you like to name your branch? And which base branch would you like to use?</message>
-        <message role="user">{{input}}</message>
-        <message role="assistant">"""
-    ```
-
     **C#**
     ```c#
     // Create a handlebars prompt
@@ -358,11 +341,31 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
         <message role="assistant">
         """;
     ```
+    **Python**
+    ```python
+    # Create a handlebars prompt
+    hb_prompt = """<message role="system">Instructions: Before creating a new branch for a user, request the new branch name and base branch name/message>
+        <message role="user">Can you create a new branch?</message>
+        <message role="assistant">Sure, what would you like to name your branch? And which base branch would you like to use?</message>
+        <message role="user">{{input}}</message>
+        <message role="assistant">"""
+    ```
 
     In this code, you create a few-shot prompt using the Handlebars template format. The prompt will guide the model to retrieve more information from the user before creating a new branch.
 
 1. Add the following code under the comment **Create the prompt template config using handlebars format**:
 
+    **C#**
+    ```c#
+    // Create the prompt template config using handlebars format
+    var templateFactory = new HandlebarsPromptTemplateFactory();
+    var promptTemplateConfig = new PromptTemplateConfig()
+    {
+        Template = hbprompt,
+        TemplateFormat = "handlebars",
+        Name = "CreateBranch",
+    };
+    ```
     **Python**
     ```python
     # Create the prompt template config using handlebars format
@@ -380,22 +383,17 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
     )
     ```
 
-    **C#**
-    ```c#
-    // Create the prompt template config using handlebars format
-    var templateFactory = new HandlebarsPromptTemplateFactory();
-    var promptTemplateConfig = new PromptTemplateConfig()
-    {
-        Template = hbprompt,
-        TemplateFormat = "handlebars",
-        Name = "CreateBranch",
-    };
-    ```
-
     This code creates a Handlebars template configuration from the prompt. You can use it to create a plugin function.
 
 1. Add the following code under the comment **Create a plugin function from the prompt**: 
 
+    **C#**
+    ```c#
+    // Create a plugin function from the prompt
+    var promptFunction = kernel.CreateFunctionFromPrompt(promptTemplateConfig, templateFactory);
+    var branchPlugin = kernel.CreatePluginFromFunctions("BranchPlugin", [promptFunction]);
+    kernel.Plugins.Add(branchPlugin);
+    ```
     **Python**
     ```python
     # Create a plugin function from the prompt
@@ -408,28 +406,20 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
     kernel.add_function(plugin_name="BranchPlugin", function=prompt_function)
     ```
 
-    **C#**
-    ```c#
-    // Create a plugin function from the prompt
-    var promptFunction = kernel.CreateFunctionFromPrompt(promptTemplateConfig, templateFactory);
-    var branchPlugin = kernel.CreatePluginFromFunctions("BranchPlugin", [promptFunction]);
-    kernel.Plugins.Add(branchPlugin);
-    ```
-
     This code creates a plugin function for the prompt and adds it to the kernel. Now you're ready to invoke your function.
 
 1. Use the **CTRL+S** command to save your changes to the code file.
 
 1. In the cloud shell command-line pane, enter the following command to run the application:
 
-    **Python**
-    ```
-    python devops.py
-    ```
-
     **C#**
     ```
     dotnet run
+    ```
+
+    **Python**
+    ```
+    python devops.py
     ```
 
 1. When prompted, enter the following text: `Please create a new branch`
@@ -455,16 +445,6 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
 
 1. Near the bottom of the file, find the comment **Create a function filter**, and add the following code:
 
-    **Python**
-    ```python
-    # Create a function filter
-    async def permission_filter(context: FunctionInvocationContext, next: Callable[[FunctionInvocationContext], Awaitable[None]]) -> None:
-        await next(context)
-        result = context.result
-        
-        # Check the plugin and function names
-    ```
-
     **C#**
     ```c#
     // Create a function filter
@@ -478,17 +458,17 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
         }
     }
     ```
+    **Python**
+    ```python
+    # Create a function filter
+    async def permission_filter(context: FunctionInvocationContext, next: Callable[[FunctionInvocationContext], Awaitable[None]]) -> None:
+        await next(context)
+        result = context.result
+        
+        # Check the plugin and function names
+    ```
 
 1. Add the following code under the comment **Check the plugin and function names** to detect when the `DeployToProd` function is invoked:
-
-     **Python**
-    ```python
-    # Check the plugin and function names
-    if context.function.plugin_name == "DevopsPlugin" and context.function.name == "DeployToProd":
-        # Request user approval
-        
-        # Proceed if approved
-    ```
 
     **C#**
     ```c#
@@ -500,24 +480,18 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
         // Proceed if approved
     }
     ```
+    **Python**
+    ```python
+    # Check the plugin and function names
+    if context.function.plugin_name == "DevopsPlugin" and context.function.name == "DeployToProd":
+        # Request user approval
+        
+        # Proceed if approved
+    ```
 
     This code uses the `FunctionInvocationContext` object to determine which plugin and function were invoked.
 
 1. Add the following logic to request the user's permission to book the flight:
-
-     **Python**
-    ```python
-    # Request user approval
-    print("System Message: The assistant requires approval to complete this operation. Do you approve (Y/N)")
-    should_proceed = input("User: ").strip()
-
-    # Proceed if approved
-    if should_proceed.upper() != "Y":
-        context.result = FunctionResult(
-            function=result.function,
-            value="The operation was not approved by the user",
-        )
-    ```
 
     **C#**
     ```c#
@@ -533,33 +507,45 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
         return;
     }
     ```
-
-1. Navigate to the comment **Add filters to the kernel** and add the following code:
-
     **Python**
     ```python
-    # Add filters to the kernel
-    kernel.add_filter('function_invocation', permission_filter)
+    # Request user approval
+    print("System Message: The assistant requires approval to complete this operation. Do you approve (Y/N)")
+    should_proceed = input("User: ").strip()
+
+    # Proceed if approved
+    if should_proceed.upper() != "Y":
+        context.result = FunctionResult(
+            function=result.function,
+            value="The operation was not approved by the user",
+        )
     ```
+
+1. Navigate to the comment **Add filters to the kernel** and add the following code:
 
     **C#**
     ```c#
     // Add filters to the kernel
     kernel.FunctionInvocationFilters.Add(new PermissionFilter());
     ```
+    **Python**
+    ```python
+    # Add filters to the kernel
+    kernel.add_filter('function_invocation', permission_filter)
+    ```
 
 1. Use the **CTRL+S** command to save your changes to the code file.
 
 1. In the cloud shell command-line pane, enter the following command to run the application:
 
-    **Python**
-    ```
-    python devops.py
-    ```
-
     **C#**
     ```
     dotnet run
+    ```
+
+    **Python**
+    ```
+    python devops.py
     ```
 
 1. Enter a prompt to deploy the build to production. You should see a response similar to the following:
