@@ -17,7 +17,7 @@ This exercise takes approximately **10** minutes to complete.
     ![Screenshot of Azure AI Foundry portal.](../Media/ai-foundry-home.png)
 
 1. In the home page, in the **Explore models and capabilities** section, search for the `gpt-4o` model; which we'll use in our project.
-1. In the search results, select the **gpt-4o** model to see its details, and then at the top of the page for the model, select **Use this model**.
+1. In the search results, select the **gpt-4o-mini** model to see its details, and then at the top of the page for the model, select **Use this model**.
 1. When prompted to create a project, enter a valid name for your project and expand **Advanced options**.
 1. Select **Customize** and specify the following settings for your hub:
     - **Azure AI Foundry resource**: *A valid name for your Azure AI Foundry resource*
@@ -45,21 +45,7 @@ Now you're ready to create a Semantic Kernel client app that provides different 
 
 ### Prepare the environment
 
-1. Open a new browser tab (keeping the Azure AI Foundry portal open in the existing tab). Then in the new tab, browse to the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`; signing in with your Azure credentials if prompted.
-
-    Close any welcome notifications to see the Azure portal home page.
-
-1. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment with no storage in your subscription.
-
-    The cloud shell provides a command-line interface in a pane at the bottom of the Azure portal. You can resize or maximize this pane to make it easier to work in.
-
-    > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, switch it to ***PowerShell***.
-
-1. In the cloud shell toolbar, in the **Settings** menu, select **Go to Classic version** (this is required to use the code editor).
-
-    **<font color="red">Ensure you've switched to the classic version of the cloud shell before continuing.</font>**
-
-1. In the cloud shell pane, enter the following commands to clone the GitHub repo containing the code files for this exercise (type the command, or copy it to the clipboard and then right-click in the command line and paste as plain text):
+1. In the terminal, enter the following commands to clone the GitHub repo containing the code files for this exercise (type the command, or copy it to the clipboard and then right-click in the command line and paste as plain text):
 
     ```
     rm -r mslearn-ai-semantic-kernel -f
@@ -72,53 +58,47 @@ Now you're ready to create a Semantic Kernel client app that provides different 
 
     > **Note**: Follow the steps for your chosen programming language.
 
-    **Python**
-
-    ```
-    cd mslearn-ai-semantic-kernel/Labfiles/04-apply-function-filters/Python
-    ```
-
     **C#**
-
     ```
     cd mslearn-ai-semantic-kernel/Labfiles/04-apply-function-filters/C-sharp
     ```
 
-1. In the cloud shell command line pane, enter the following command to install the libraries you'll use:
+    **Python**
+    ```
+    cd mslearn-ai-semantic-kernel/Labfiles/04-apply-function-filters/Python
+    ```
+
+2. In the terminal, enter the following command to install the libraries you'll use:
+
+    **C#**
+    ```
+    dotnet add package Microsoft.SemanticKernel
+    ```
 
     **Python**
-
     ```
     python -m venv labenv
     ./labenv/bin/Activate.ps1
     pip install python-dotenv semantic-kernel[azure]
     ```
 
-    **C#**
-
-    ```
-    dotnet add package Microsoft.SemanticKernel
-    ```
-
-1. Enter the following command to edit the configuration file that has been provided:
-
-    **Python**
-
-    ```
-    code .env
-    ```
+3. Enter the following command to edit the configuration file that has been provided:
 
     **C#**
-
     ```
     code appsettings.json
     ```
 
+    **Python**
+    ```
+    code .env
+    ```
+
     The file should open in a code editor.
 
-1. In the code file, replace the **your_azure_openai_endpoint** and **your_azure_openai_key** placeholders with the Azure OpenAI endpoint and API key for your project (copied from the project **Overview** page in the Azure AI Foundry portal), and replace the **your_deployment_name** placeholder with the name you assigned to your gpt-4o model.
+4. In the code file, replace the **your_azure_openai_endpoint** and **your_azure_openai_key** placeholders with the Azure OpenAI endpoint and API key for your project (copied from the project **Overview** page in the Azure AI Foundry portal), and replace the **your_deployment_name** placeholder with the name you assigned to your gpt-4o model.
 
-1. After you replace the placeholders, in the code editor, use the **CTRL+S** command or **Right-click > Save** to save your changes and then use the **CTRL+Q** command or **Right-click > Quit** to close the code editor while keeping the cloud shell command line open.
+5. After you replace the placeholders, in the code editor, use the **CTRL+S** command or **Right-click > Save** to save your changes and then use the **CTRL+Q** command or **Right-click > Quit** to close the code editor while keeping the cloud shell command line open.
 
 ### Request user approval for an operation
 
@@ -126,18 +106,23 @@ In this task, you add a filter function that will request the user's approval be
 
 1. Enter the following command to edit the permission filter file that has been provided:
 
-    **Python**
-    ```
-    code filters.py
-    ```
-
     **C#**
     ```
     code Program.cs
     ```
 
+    **Python**
+    ```
+    code filters.py
+    ```
+
 1. Update the class definition under the comment **Create the function filer class**:
 
+    **C#**
+    ```c#
+    // Create the function filer class
+    public class PermissionFilter : IFunctionInvocationFilter
+    ```
     **Python**
     ```python
     # Create the function filer class
@@ -145,23 +130,7 @@ In this task, you add a filter function that will request the user's approval be
         next: Callable[[FunctionInvocationContext], Awaitable[None]]) -> None:
     ```
 
-    **C#**
-    ```c#
-    // Create the function filer class
-    public class PermissionFilter : IFunctionInvocationFilter
-    ```
-
 1. Add the following code under the comment **Implement the function invocation method**
-
-    **Python**
-    ```python
-    # Implement the function invocation method
-    if not has_user_permission(context.function.plugin_name, context.function.name):
-        context.result = "The operation was not approved by the user"
-        return
-    
-    await next(context)
-    ```
 
     **C#**
     ```c#
@@ -177,33 +146,40 @@ In this task, you add a filter function that will request the user's approval be
         await next(context);
     }
     ```
-
-1. Add the following code under the comment **Add the permission filter to the kernel**:
-
     **Python**
     ```python
-    # Add the permission filter to the kernel
-    kernel.add_filter('function_invocation', permission_filter)
+    # Implement the function invocation method
+    if not has_user_permission(context.function.plugin_name, context.function.name):
+        context.result = "The operation was not approved by the user"
+        return
+    
+    await next(context)
     ```
+
+1. Add the following code under the comment **Add the permission filter to the kernel**:
 
     **C#**
     ```c#
     // Add the permission filter to the kernel
     kernel.FunctionInvocationFilters.Add(new PermissionFilter());
     ```
-
-1. In the terminal to test your new filter.
-
     **Python**
     ```python
-    # Enter the command
-    python filters.py
+    # Add the permission filter to the kernel
+    kernel.add_filter('function_invocation', permission_filter)
     ```
+
+1. In the terminal to test your new filter.
 
     **C#**
     ```
     // Enter the command
     dotnet run
+    ```
+    **Python**
+    ```python
+    # Enter the command
+    python filters.py
     ```
 
     Try denying the approval request. You should see a response similar to the following output:

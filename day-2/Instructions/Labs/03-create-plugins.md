@@ -72,7 +72,7 @@ Now that you deployed a model, you're ready to create a Semantic Kernel client a
     ```
 
 
-2. In the cloud shell command line pane, enter the following command to install the libraries you'll use:
+2. In the terminal, enter the following command to install the libraries you'll use:
 
       **C#**
 
