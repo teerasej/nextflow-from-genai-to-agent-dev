@@ -1,0 +1,4 @@
+Support Ticket: 772F3812
+Email: teerasej@nextflow.in.th
+Description: MacBook is not starting up.
+Submitted: 2025-11-22 09:53:15 UTC
