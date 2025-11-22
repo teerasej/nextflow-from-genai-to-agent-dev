@@ -13,11 +13,11 @@
 5. [Create a Conversational AI Assistant](part-2/Instructions/Labs/05-create-semantic-kernel-ai-assistant.md)
 6. [RAG with Azure AI Search](part-2/Instructions/Labs/06-rag-with-azure-ai-search.md)
 
-## Day 3
+## Part 3
 
 1. [Agent Fundamental](part-3/Instructions/01-agent-fundamentals.md)
 2. [Build AI Agent](part-3/Instructions/02-build-ai-agent-csharp.md)
 3. [Agent Custom Function](part-3/Instructions/03-agent-custom-functions-csharp.md)
-4. [Build Multi-Agent Solution](part-3/Instructions/03b-build-multi-agent-solution.md)
-5. [Use Agent Tools with MCP](part-3/Instructions/03c-use-agent-tools-with-mcp.md)
-6. [Build AI Agent with Microsoft Agent Framework](part-3/Instructions/04-semantic-kernel.md)
+4. [Build Multi-Agent Solution](part-3/Instructions/03b-build-multi-agent-solution-csharp.md)
+5. [Use Agent Tools with MCP](part-3/Instructions/03c-use-agent-tools-with-mcp-csharp.md)
+6. [Build AI Agent with Microsoft Agent Framework](part-3/Instructions/04-semantic-kernel-csharp.md)
