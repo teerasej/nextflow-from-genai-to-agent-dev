@@ -159,7 +159,7 @@ Now you're ready to implement the agent functionality!
 1. In the terminal, enter the following command to sign into Azure:
 
     ```bash
-    az login
+    az login --use-device-code
     ```
 
     > **Note**: In most scenarios, just using *az login* will be sufficient. However, if you have subscriptions in multiple tenants, you may need to specify the tenant by using the *--tenant* parameter. See [Sign into Azure interactively using the Azure CLI](https://learn.microsoft.com/cli/azure/authenticate-azure-cli-interactively) for details.

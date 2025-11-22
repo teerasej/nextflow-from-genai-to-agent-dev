@@ -41,11 +41,50 @@ if (string.IsNullOrEmpty(userPrompt))
 await ProcessExpensesData(userPrompt, expensesData, azureOpenAIEndpoint, modelDeployment);
 
 // Create a tool function for the email functionality
-
+[Description("Send an email with a subject and body to a recipient.")]
+    static void SendEmail(
+        [Description("The email address to send the email to.")] string to,
+        [Description("The subject of the email.")] string subject,
+        [Description("The body content of the email.")] string body)
+    {     
+        Console.WriteLine($"\nTo: {to}");
+        Console.WriteLine($"Subject: {subject}");
+        Console.WriteLine($"{body}\n");
+    }
 
 async Task ProcessExpensesData(string prompt, string expensesData, string endpoint, string deployment)
 {
     // Create a chat agent
-    
+    try
+    {
+        // Create the Azure OpenAI client
+        AzureOpenAIClient client = new(
+            new Uri(endpoint),
+            new AzureCliCredential()
+        );
+
+        // Get the chat client for the model deployment
+        var chatClient = client.GetChatClient(deployment);
+
+        // Create the agent with instructions and the SendEmail tool
+        AIAgent agent = chatClient.CreateAIAgent(
+            instructions: @"You are an AI assistant for expense claim submission.
+                           When a user submits expenses data and requests an expense claim, use the SendEmail function to send an email to expenses@contoso.com with the subject 'Expense Claim' and a body that contains itemized expenses with a total.
+                           Then confirm to the user that you've done so.",
+            name: "expenses_agent",
+            tools: [AIFunctionFactory.Create(SendEmail)]
+        );
+
+        // Invoke the agent with the user's prompt and expenses data
+        string fullPrompt = $"{prompt}: {expensesData}";
+        AgentRunResponse response = await agent.RunAsync(fullPrompt);
+
+        // Display the agent's response
+        Console.WriteLine($"\n# Agent:\n{response}\n");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error: {ex.Message}");
+    }
 
 }
