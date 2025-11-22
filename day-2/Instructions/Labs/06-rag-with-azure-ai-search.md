@@ -360,7 +360,10 @@ Before using your index in a RAG-based prompt flow, let's verify that it can be 
     ```powershell
     dotnet run
     ```
-2. When prompted, ask a question that can be answered from the brochures index (for example, "Find a hotel near the airport").
+2. When prompted, ask a question that can be answered from the brochures index, for example:
+    ```text
+    Tell me where to stay in New York?
+    ```
 3. Observe how the assistant first pulls the relevant brochure content via the vector search plugin before answering.
 
 ## Extend the pattern to other vector solutions
