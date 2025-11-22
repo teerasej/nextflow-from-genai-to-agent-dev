@@ -126,11 +126,15 @@ Before using your index in a RAG-based prompt flow, let's verify that it can be 
    ![alt text](../Media/image.png)
     4. Copy these values for AZURE_SEARCH_ENDPOINT and AZURE_SEARCH_KEY (endpoint should include https://) in the appsettings.json
 
-3. Open the `appsettings.json` file:
+3. In the Terminal, navigate to the `C-sharp` folder containing the application code files:
+    ```powershell
+    cd part-2/Labfiles/06-rag-with-azure-ai-search/C-sharp
+    ```
+4. Open the `appsettings.json` file:
     ```powershell
     code appsettings.json
     ```
-4. Update the following keys with your Azure resource details:
+5. Update the following keys with your Azure resource details:
     - `AZURE_OPENAI_KEY`
     - `AZURE_OPENAI_ENDPOINT`
     - `DEPLOYMENT_NAME` (Your chat completion deployment, e.g., gpt-4o)

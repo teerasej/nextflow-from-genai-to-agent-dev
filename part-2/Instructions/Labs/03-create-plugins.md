@@ -44,30 +44,21 @@ Now that you deployed a model, you're ready to create a Semantic Kernel client a
 
 ### Prepare the environment
 
-1. In the, enter the following commands to clone the GitHub repo containing the code files for this exercise (type the command, or copy it to the clipboard and then right-click in the command line and paste as plain text):
-
-    ```
-    rm -r mslearn-ai-semantic-kernel -f
-    git clone https://github.com/MicrosoftLearning/mslearn-ai-semantic-kernel mslearn-ai-semantic-kernel
-    ```
-
-    > **Tip**: As you paste commands into the cloudshell, the output may take up a large amount of the screen buffer. You can clear the screen by entering the `cls` command to make it easier to focus on each task.
-
-1. After the repo has been cloned, navigate to the folder containing the application code files:  
+1. In the terminal, navigate to the folder containing the application code files:  
 
     > **Note**: Follow the steps for your chosen programming language.
 
     **C#**
 
     ```
-    cd mslearn-ai-semantic-kernel/Labfiles/03-create-plugins/C-sharp
+    cd part-2/Labfiles/03-create-plugins/C-sharp
     ```
 
 
     **Python**
 
     ```
-    cd mslearn-ai-semantic-kernel/Labfiles/03-create-plugins/Python
+    cd part-2/Labfiles/03-create-plugins/Python
     ```
 
 

@@ -57,7 +57,7 @@ Now that you have deployed a model, you can use the Azure AI Foundry and Azure O
 3. From the cloned repository, navigate to the folder containing the chat application code files and view them:
 
     ```
-   cd day-1/LabFiles/chat-app/csharp
+   cd part-1/LabFiles/chat-app/csharp
    ls -a -l
     ```
 

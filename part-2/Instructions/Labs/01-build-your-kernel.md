@@ -44,46 +44,31 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
 
 ### Configure your application
 
-1. Open a new browser tab (keeping the Azure AI Foundry portal open in the existing tab). Then in the new tab, browse to the [Azure portal](https://portal.azure.com) at `https://portal.azure.com`; signing in with your Azure credentials if prompted.
-
-    Close any welcome notifications to see the Azure portal home page.
-
-1. Use the **[\>_]** button to the right of the search bar at the top of the page to create a new Cloud Shell in the Azure portal, selecting a ***PowerShell*** environment with no storage in your subscription.
-
-    The cloud shell provides a command-line interface in a pane at the bottom of the Azure portal. You can resize or maximize this pane to make it easier to work in.
-
-    > **Note**: If you have previously created a cloud shell that uses a *Bash* environment, switch it to ***PowerShell***.
-
-1. In the cloud shell toolbar, in the **Settings** menu, select **Go to Classic version** (this is required to use the code editor).
-
-    **<font color="red">Ensure you've switched to the classic version of the cloud shell before continuing.</font>**
-
-1. In the cloud shell pane, enter the following commands to clone the GitHub repo containing the code files for this exercise (type the command, or copy it to the clipboard and then right-click in the command line and paste as plain text):
-
-    ```
-    rm -r mslearn-ai-semantic-kernel -f
-    git clone https://github.com/MicrosoftLearning/mslearn-ai-semantic-kernel mslearn-ai-semantic-kernel
-    ```
-
-    > **Tip**: As you paste commands into the cloudshell, the output may take up a large amount of the screen buffer. You can clear the screen by entering the `cls` command to make it easier to focus on each task.
-
-1. After the repo has been cloned, navigate to the folder containing the application code files:  
+1. In terminal, navigate to the folder containing the application code files:  
 
     > **Note**: Follow the steps for your chosen programming language.
-
-    **Python**
-
-    ```
-    cd mslearn-ai-semantic-kernel/Labfiles/01-build-your-kernel/Python
-    ```
 
     **C#**
 
     ```
-    cd mslearn-ai-semantic-kernel/Labfiles/01-build-your-kernel/C-sharp
+    cd part2/Labfiles/01-build-your-kernel/C-sharp
     ```
 
+    **Python**
+
+    ```
+    cd part2/Labfiles/01-build-your-kernel/Python
+    ```
+
+    
+
 1. In the cloud shell command-line pane, enter the following command to install the libraries you'll use:
+
+
+    **C#**
+    ```
+    dotnet add package Microsoft.SemanticKernel
+    ```
 
     **Python**
     ```
@@ -92,12 +77,14 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
     pip install python-dotenv semantic-kernel[azure] 
     ```
 
-    **C#**
-    ```
-    dotnet add package Microsoft.SemanticKernel
-    ```
 
 1. Enter the following command to edit the configuration file that has been provided:
+
+     **C#**
+
+    ```
+    code appsettings.json
+    ```
 
     **Python**
 
@@ -105,11 +92,7 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
     code .env
     ```
 
-    **C#**
-
-    ```
-    code appsettings.json
-    ```
+   
 
     The file should open in a code editor.
 
@@ -121,17 +104,25 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
 
 1. Enter the following commands to edit the code file:
 
-    **Python**
-    ```
-    code kernel.py
-    ```
 
     **C#**
     ```
     code Program.cs
     ```
 
+    **Python**
+    ```
+    code kernel.py
+    ```
+
+
 1. Under the comment **Import namespaces**, add the following language-specific code to import the namespaces you'll need to use the Semantic Kernel SDK.
+
+
+    **C#**
+    ```c#
+    using Microsoft.SemanticKernel;
+    ```
 
     **Python**
     ```python
@@ -141,12 +132,16 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
     from semantic_kernel.functions.kernel_arguments import KernelArguments
     ```
 
-    **C#**
-    ```c#
-    using Microsoft.SemanticKernel;
-    ```
 
 1. Add the following code under the comment **Create a kernel with Azure OpenAI chat completion**:
+
+
+    **C#**
+    ```C#
+    // Create a kernel with Azure OpenAI chat completion
+    var builder = Kernel.CreateBuilder().AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey);
+    Kernel kernel = builder.Build();
+    ```
 
     **Python**
     ```python
@@ -160,14 +155,15 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
     kernel.add_service(chat_completion)
     ```
 
-    **C#**
-    ```C#
-    // Create a kernel with Azure OpenAI chat completion
-    var builder = Kernel.CreateBuilder().AddAzureOpenAIChatCompletion(deploymentName, endpoint, apiKey);
-    Kernel kernel = builder.Build();
-    ```
 
 1. To test that your kernel and endpoint is working, enter the following code under the comment **Test the chat completion service**:
+
+    **C#**
+    ```c#
+    // Test the chat completion service
+    var result = await kernel.InvokePromptAsync("Give me a list of 10 breakfast foods with eggs and cheese");
+    Console.WriteLine(result);
+    ```
 
     **Python**
     ```python
@@ -178,27 +174,20 @@ Now that you deployed a model, you can use the Semantic Kernel SDK to create a c
     print("Assistant > " + str(response))
     ```
 
-    **C#**
-    ```c#
-    // Test the chat completion service
-    var result = await kernel.InvokePromptAsync("Give me a list of 10 breakfast foods with eggs and cheese");
-    Console.WriteLine(result);
-    ```
-
 1. After you've updated the code, use the **CTRL+S** command to save your changes.
 
 1. Use the **CTRL+Q** command to close the code editor.
 
 1. Run the code using the following command:
 
-     **Python**
-    ```
-    python kernel.py
-    ```
-
+   
     **C#**
     ```
     dotnet run
+    ```
+    **Python**
+    ```
+    python kernel.py
     ```
 
 1. Check that you see a response similar to the following:
