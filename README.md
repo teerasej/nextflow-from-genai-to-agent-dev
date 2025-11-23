@@ -1,5 +1,5 @@
 
-# Semantic Kernel and AI Agents Workshop
+# Developing AI Application & Agent solution with Semantics Kernel
 
 ## Part 1
 
