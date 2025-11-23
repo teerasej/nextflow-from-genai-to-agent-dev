@@ -1,4 +1,6 @@
 
+# Semantic Kernel and AI Agents Workshop
+
 ## Part 1
 
 1. ✅ [Explore model catalog, create and deploy an AI project](part-1/Instructions/02-Explore-model-catalog.md)
