@@ -16,8 +16,7 @@
 2. [Run prompts with Semantic Kernel](part-2/Instructions/Labs/02-run-prompts.md)
 3. [Create a Semantic Kernel Plugin](part-2/Instructions/Labs/03-create-plugins.md)
 4. [Apply Function Filter](part-2/Instructions/Labs/04-apply-function-filters.md)
-5. [Create a Conversational AI Assistant](part-2/Instructions/Labs/05-create-semantic-kernel-ai-assistant.md)
-6. [RAG with Azure AI Search](part-2/Instructions/Labs/06-rag-with-azure-ai-search.md)
+5. [RAG with Azure AI Search](part-2/Instructions/Labs/06-rag-with-azure-ai-search.md)
 
 ## Part 3
 
