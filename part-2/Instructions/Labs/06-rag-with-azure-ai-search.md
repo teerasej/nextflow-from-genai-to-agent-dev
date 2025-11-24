@@ -386,6 +386,7 @@ Before using your index in a RAG-based prompt flow, let's verify that it can be 
 
 ## Extend the pattern to other vector solutions
 
+- [Official Out-of-the-box connector](https://learn.microsoft.com/en-us/semantic-kernel/concepts/vector-store-connectors/out-of-the-box-connectors/?pivots=programming-language-csharp)
 - **Swap the search backend**: implement `IAzureAISearchService` against any vector-capable store (Pinecone, Qdrant, Weaviate, etc.) while keeping the plugin and prompt the same.
 - **Reuse Semantic Kernel components**: the embedding generator and `MyAzureAISearchPlugin` sit between the LLM and the search service, so they remain unchanged when the vector store changes.
 - **Understand the data flow**: the plugin turns text into vectors, the search service retrieves matching documents, and the prompt adds the retrieved context before invoking the chat completion. This clear separation is what lets you explore other vector solutions next.
