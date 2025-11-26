@@ -22,7 +22,10 @@
 
 1. [Agent Fundamental](part-3/Instructions/01-agent-fundamentals.md)
 2. [Build AI Agent](part-3/Instructions/02-build-ai-agent-csharp.md)
-3. [Agent Custom Function](part-3/Instructions/03-agent-custom-functions-csharp.md)
-4. [Build Multi-Agent Solution](part-3/Instructions/03b-build-multi-agent-solution-csharp.md)
-5. [Use Agent Tools with MCP](part-3/Instructions/03c-use-agent-tools-with-mcp-csharp.md)
-6. [Build AI Agent with Microsoft Agent Framework](part-3/Instructions/04-semantic-kernel-csharp.md)
+3. [Build Multi-Agent Solution](part-3/Instructions/03b-build-multi-agent-solution-csharp.md)
+4. [Use Agent Tools with MCP](part-3/Instructions/03c-use-agent-tools-with-mcp-csharp.md)
+5. [Build AI Agent with Microsoft Agent Framework](part-3/Instructions/04-semantic-kernel-csharp.md)
+
+## Additional Resources
+
+[Survey Feedback](https://forms.office.com/r/uZAHxnK4k1)
