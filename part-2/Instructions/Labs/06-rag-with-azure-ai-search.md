@@ -47,7 +47,7 @@ You need two models to implement your solution:
 
 2. Deploy the **text-embedding-3-small** model using a **Global Standard** deployment with a Tokens Per Minute (TPM) rate limit of **500K** to ensure efficient indexing.
 
-3. In the Azure AI Foundry portal, in your project, in the navigation pane on the left, under **My assets**, select the **Models + endpoints** page. Deploy a **gpt-4o** model using a **Global Standard** deployment of the most recent version with a TPM rate limit of **50K** (or the maximum available in your subscription if less than 50K).
+3. In the Azure AI Foundry portal, in your project, in the navigation pane on the left, under **My assets**, select the **Models + endpoints** page. Deploy a **gpt-4o-mini** model using a **Global Standard** deployment of the most recent version with a TPM rate limit of **50K** (or the maximum available in your subscription if less than 50K).
 
     > **Note**: Reducing the Tokens Per Minute (TPM) helps avoid over-using the quota available in the subscription you are using. 50,000 TPM is sufficient for the data used in this exercise.
 
