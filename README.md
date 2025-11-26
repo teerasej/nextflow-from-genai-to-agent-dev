@@ -15,7 +15,7 @@
 1. [Build your kernel with Semantic Kernel](part-2/Instructions/Labs/01-build-your-kernel.md)
 2. [Run prompts with Semantic Kernel](part-2/Instructions/Labs/02-run-prompts.md)
 3. [Create a Semantic Kernel Plugin](part-2/Instructions/Labs/03-create-plugins.md)
-4. [Apply Function Filter](part-2/Instructions/Labs/04-apply-function-filters.md)
+4. [Basic of Vector Data](https://github.com/teerasej/nextflow-semantic-kernel-working-with-vecttor/)
 5. [RAG with Azure AI Search](part-2/Instructions/Labs/06-rag-with-azure-ai-search.md)
 
 ## Part 3
